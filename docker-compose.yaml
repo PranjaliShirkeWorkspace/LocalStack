@@ -1,0 +1,14 @@
+version: '1'
+services:
+  localstack:
+    image: localstack/localstack:latest #downloads the latest localstack image
+    container_name: demo-localstack #name for the container
+    ports:
+      - '4566-4583:4566-4583' # services will run on these ports
+    environment:
+      - SERVICES=s3,ssm,sns # AWS services that you wish to run using localstack
+      - DEBUG=1 #For enabling debug logs : 1, else 0. (useful for troubleshooting issues)
+      - EDGE_PORT=4566 #port for main entry point for all API (Application Program Interface) invocations.
+    volumes:
+      - '${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
